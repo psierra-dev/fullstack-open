@@ -15,12 +15,13 @@ function App() {
 
   const [selected, setSelected] = useState(0);
   const [points, setPoints] = useState([0, 0, 0, 0, 0, 0, 0, 0]);
-  const most_votes = points.findIndex((value) => value === Math.max(...points));
+
+  const most_votes = Math.max(...points);
+  const most_votes_index = points.findIndex((value) => value === most_votes);
   return (
     <div>
       <h2>Anecdote of the day</h2>
-      <Anecdote content={anecdotes[selected]} />
-      <p>has {points[selected]} votes</p>
+      <Anecdote content={anecdotes[selected]} votes={points[selected]} />
 
       <div>
         <button
@@ -43,7 +44,7 @@ function App() {
       </div>
 
       <h2>Anecdote with most votes</h2>
-      <Anecdote content={anecdotes[most_votes]} />
+      <Anecdote content={anecdotes[most_votes_index]} votes={most_votes} />
     </div>
   );
 }
