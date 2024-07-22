@@ -1,0 +1,76 @@
+# Diagram-create-note
+
+```mermaid
+sequenceDiagram
+    participant user
+    participant browser
+    participant server
+
+    user->>browser: Escribe en el campo de texto
+    user->>browser: Hace clic en "Save"
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note
+    activate server
+    server-->>browser: Http 302
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
+    activate server
+    server-->>browser: HTML document
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+    activate server
+    server-->>browser: the css file
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.js
+    activate server
+    server-->>browser: the JavaScript file
+    deactivate server
+
+    Note right of browser: The browser starts executing the JavaScript code that fetches the JSON from the server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    activate server
+    server-->>browser: [{ "content": "HTML is easy", "date": "2023-1-1" }, ... ]
+    deactivate server
+
+    Note right of browser: The browser executes the callback function that renders the notes
+
+```
+
+# Diagram-SPA
+
+```mermaid
+sequenceDiagram
+    participant user
+    participant browser
+    participant server
+
+    user->>browser: Abre la URL de la SPA
+    browser->>server: Solicita el archivo HTML inicial
+    server-->>browser: Responde con el archivo HTML
+    browser->>server: Solicita los archivos CSS y JavaScript
+    server-->>browser: Responde con los archivos CSS y JavaScript
+    browser->>browser: Ejecuta el archivo JavaScript y inicializa la aplicación
+    browser->>server: Solicita los datos de las notas
+    server-->>browser: Responde con los datos de las notas
+    browser->>user: Actualiza la UI para mostrar las notass
+
+```
+
+# Diagram-crater-note-SPA
+
+```mermaid
+sequenceDiagram
+    participant user
+    participant browser
+    participant server
+
+    user->>browser: Escribe en el campo de texto
+    user->>browser: Hace clic en "Save"
+    browser->>server: POST /notes
+    server-->>browser: Respuesta de éxito con la nueva nota
+    browser->>user: Actualiza la UI para mostrar la nueva nota
+
+```
